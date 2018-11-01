@@ -9,7 +9,7 @@
 
 using namespace std;
 
-// Uma classe que representa um grafo n„o direcionado
+// Uma classe que representa um grafo n√£o direcionado
 class Graph
 {
     int V;    //Numero de vertices
@@ -19,7 +19,7 @@ public:
     Graph(int V)   { this->V = V; adj = new list<int>[V+1]; }
     ~Graph()       { delete [] adj; }
 
-    // FunÁ„o para adicionar as arestas
+    // Fun√ß√£o para adicionar as arestas
     void addEdge(int v, int w);
     // Imprime usando dSatur
     void dSaturColoring();
@@ -53,7 +53,7 @@ bool compareInterval(Vertex i1, Vertex i2)
     return (i1.getNum_conect() > i2.getNum_conect());
 }
 
-/* FunÁıes da Classe Vertex*/
+/* Fun√ß√µes da Classe Vertex*/
 void Vertex::setValor(int v, int n){
     vertice = v;
     num_conect = n;
@@ -82,13 +82,13 @@ int Vertex::getColor(){
 
 struct Cores{
     int colors; //Cor usado no vertice
-    vector<int> aresta_block; //arestas que n„o podem ser colorida com a cor
+    vector<int> aresta_block; //arestas que n√£o podem ser colorida com a cor
 };
-/*FunÁ„o (vetor, tamanho, id) */
+/*Fun√ß√£o (vetor, tamanho, id) */
 bool existeArestas(struct Cores arr[], int n, int id)
 {
  for(int i=0;i<=n;i++)
- {  //Testa se o vertice escolhido ta bloqueado para a cor, comeÁando da menor cor possivel, ou seja, 0 -> n..
+ {  //Testa se o vertice escolhido ta bloqueado para a cor, come√ßando da menor cor possivel, ou seja, 0 -> n..
     if (find(arr[i].aresta_block.begin(), arr[i].aresta_block.end(),id) != arr[i].aresta_block.end())
         return true;
     else
@@ -135,33 +135,19 @@ void Graph::dSaturColoring(){
     adjvert[0].setColor(cor);//seta cor 0 pro vertice de maior grau
     color.push_back(cor);
 
-    // grava a primeira cor e os vertices que n„o podem ser preenchido com a cor
+    // grava a primeira cor e os vertices que n√£o podem ser preenchido com a cor
     for (i = adj[adjvert[0].getVertice()].begin(); i != adj[adjvert[0].getVertice()].end(); ++i){
         colorful[0].colors = 0;
         colorful[0].aresta_block.push_back(*i);
     }
-//    cout << "\nEXISTE? 1 - Se Verdade -> " << existeArestas(colorful,V,0)<< endl;
-//    cout << "\nEXISTE? 1 - Se Verdade -> " << existeArestas(colorful,V,3)<< endl;
-//    cout << "\nEXISTE? 1 - Se Verdade -> " << existeArestas(colorful,V,2)<< endl;
-//
-//    cout << "Cor -> " << colorful[0].colors << endl;
 
-//    colorf->setInfo(cor,0);//cor e aresta
-//    colorf->setInfo(cor,2);
-//    colorf->setInfo(cor,3);
-//    colorful.push_back(*colorf);
-
-//    cout << "Cor -> " << colorful[0].getColors() << endl;
-//    cout << "\nEXISTE? 1 - Se Verdade -> " << colorful[0].existeArestas(0) << endl;
-//    cout << "\nEXISTE? 1 - Se Verdade -> " << colorful[0].existeArestas(2) << endl;
-//    cout << "\nEXISTE? 1 - Se Verdade -> " << colorful[0].existeArestas(1) << endl;
     int cont_cor = 0;
     for (int u = 1; u < V; u++)
     {   //lista de ajacencia do vertice selecionado
         for (i = adj[adjvert[u].getVertice()].begin(); i != adj[adjvert[u].getVertice()].end(); i++){
             //testa a cor com o total de vertice selecionado
             while(cont_cor != u){
-                    // verifica se o vertice selecionado est· bloqueado para alguma cor, chama funÁ„o.
+                    // verifica se o vertice selecionado est√° bloqueado para alguma cor, chama fun√ß√£o.
                 if(existeArestas(colorful,cor,adjvert[u].getVertice()) == true){
                     cor++; // se tiver bloqueado para a cor, acrescenta cor
                     cont_cor++;
@@ -243,7 +229,7 @@ void Graph::dSaturColoring2(){
     adjvert[0].setColor(cor);//seta cor 0 pro vertice de maior grau
     color.push_back(cor);
 
-    // grava a primeira cor e os vertices que n„o podem ser preenchido com a cor
+    // grava a primeira cor e os vertices que n√£o podem ser preenchido com a cor
     for (i = adj[adjvert[0].getVertice()].begin(); i != adj[adjvert[0].getVertice()].end(); ++i){
         colorful[cor].colors = 0;
         colorful[cor].aresta_block.push_back(*i);
@@ -255,7 +241,7 @@ void Graph::dSaturColoring2(){
         for (i = adj[adjvert[u].getVertice()].begin(); i != adj[adjvert[u].getVertice()].end(); i++){
             //testa a cor com o total de vertice selecionado
             while(cont_cor != u){
-                    // verifica se o vertice selecionado est· bloqueado para alguma cor, chama funÁ„o.
+                    // verifica se o vertice selecionado est√° bloqueado para alguma cor, chama fun√ß√£o.
                 if(existeArestas(colorful,cor,adjvert[u].getVertice()) == true){
                     cor++; // se tiver bloqueado para a cor, acrescenta cor
                     cont_cor++;
@@ -290,52 +276,7 @@ void Graph::dSaturColoring2(){
 
 
         cout << "\nNumero minimo de cores possiveis: " << num_cor + 1 << endl;
-
-
-       // buscaLocal(adjvert, num_cor, colorful);
 }
-/*BUSCA LOCAL*/
-
-// void buscaLocal(vector<Vertex> adjvert, int num_cor, struct Cores arr[] ){
-
-//     vector<Vertex> aux = adjvert;
-//     int cor_menor = 0;
-//     int cor_minVertice = INT32_MAX;
-//     int contador = 0;
-//     int nova_cor = 0;
-//     int j;
-//     for(j = 0; j < num_cor; j++){
-//         for (int i = 0; i < adjvert.size(); ++i)
-//             if(adjvert[i].getColor() == j){
-//                 contador++;
-//             }
-
-//         if(cor_minVertice > contador && contador != 0){
-//             cor_minVertice = contador;
-//             cor_menor = j;
-//         }
-//         contador = 0;
-//     }
-
-//     while(adjvert[cor_menor].getColor() == cor_menor){
-//             adjvert[cor_menor].setColor(-1);
-//             cout << "Cor do vertice " << adjvert[cor_menor].getVertice() << " eh: " << adjvert[cor_menor].getColor() << endl;
-//     }
-//     int i;
-//     for(i=0;i<=num_cor;i++)
-//     {  //Testa se o vertice escolhido ta bloqueado para a cor, comeÁando da menor cor possivel, ou seja, 0 -> n..
-//         if (find(arr[i].aresta_block.begin(), arr[i].aresta_block.end(),adjvert[cor_menor].getVertice()) != arr[i].aresta_block.end()&& i != cor_menor)
-//             break;
-//         else
-//             cout << "\nNao eh possivel colorir para a cor -> " << i << endl;
-//     }
-
-//     cout << "Cor possivel para colorir -> " << i << endl;
-//     cout << "Numero de vertice com a cor " << cor_menor << " eh: " << cor_minVertice << endl;
-
-
-
-// }
 
 
 // Driver program to test above function
