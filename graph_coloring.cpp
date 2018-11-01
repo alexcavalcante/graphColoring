@@ -5,7 +5,8 @@
 #include <list>
 #include <vector>
 #include <array>
-#include <map>
+#include <time.h>
+
 using namespace std;
 
 // Uma classe que representa um grafo não direcionado
@@ -339,7 +340,9 @@ void Graph::dSaturColoring2(){
 
 // Driver program to test above function
 int main(int argc, char* argv[])
-{
+{   clock_t tempo;
+	tempo = clock();
+
     string url = argv[1];
     int tam, value, value2;
 
@@ -357,7 +360,9 @@ int main(int argc, char* argv[])
     }
 
     g1.dSaturColoring();
-    g1.dSaturColoring2();
+
+    cout <<"Tempo gasto em (s): " << ((clock() - tempo)/(double)CLOCKS_PER_SEC) << endl;
+    //g1.dSaturColoring2();
 //    Graph g3(6);
 //    g3.addEdge(0, 1);
 //    g3.addEdge(0, 2);
