@@ -3,6 +3,7 @@
 #include <string.h>
 #include <assert.h>
 #include <sys/time.h>
+
 //#define MOSTRAR 1
 
 typedef struct vertices
@@ -132,12 +133,34 @@ int faltaColorir(vertices * lista, int num) /* verifica se existe vertice que fa
 	return 0;
 }
 
-void insereCor(vertices ** lista, int id, int num, int cor) /*recebe a lista o id e a cor, pesquisa pelo id e insere a cor desejada nele se ele ja nao estiver colorido*/
+
+int procuraCorArestas(vertices ** lista, vertices v, int ** matriz_adj, int num, int cor)
+{
+	int i;
+	for(i = 1; i < num; i++)
+	{
+		if(matriz_adj[v.id][i] == 1)
+		{
+			int j;
+			for(j = 0; j < num; j++)
+			{
+				if((*lista)[j].id == i)
+				{
+					if((*lista)[j].cor == cor)
+						return 1; //caso em que existe um vertice adjacente ja colorido com a cor desejada
+				}
+			}
+		}
+	}
+	return 0;
+}
+
+void insereCor(vertices ** lista, int ** matriz_adj, int id, int num, int cor) /*recebe a lista o id e a cor, pesquisa pelo id e insere a cor desejada nele se ele ja nao estiver colorido*/
 {
 	int idx = 0;
 	for(; idx < num; idx++)
 	{
-		if((*lista)[idx].id == id && (*lista)[idx].cor == -1)
+		if((*lista)[idx].id == id && (*lista)[idx].cor == -1 && !procuraCorArestas(lista, (*lista)[idx], matriz_adj, num, cor))
 			(*lista)[idx].cor = cor;		
 	}
 }
@@ -153,7 +176,7 @@ int colore(vertices ** lista, int ** matriz_adj, int num) /* executa o algoritmo
 		{
 			if(matriz_adj[id][idx_matriz_coluna] == 0)
 			{
-				insereCor(lista, idx_matriz_coluna, num, cor);
+				insereCor(lista, matriz_adj, idx_matriz_coluna, num, cor);
 			}
 		}
 		if(faltaColorir((*lista), num)){
@@ -194,8 +217,8 @@ int main(int argc, char * argv[])
 	int num_arestas = 0;
 	while(!feof(file))
 	{
-		num_arestas++;
 		fgets(buffer, 50, file);
+		num_arestas++;
 		str_separada = str_split(buffer, ' ');
 		id1 = atoi(str_separada[0]);
 		id2 = atoi(str_separada[1]);
