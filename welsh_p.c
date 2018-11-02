@@ -216,7 +216,7 @@ void busca_Local(vertices * lista_vertices, int tam, int num_cor){
          contador = 0;
     }
 
-    printf("\n\nQuantidade de vertices com a menor cor %d eh: %d", cor_menor, cor_minVertice);
+//    printf("\n\nQuantidade de vertices com a menor cor %d eh: %d", cor_menor, cor_minVertice);
 
 //    //altera cor do vertice para tentar colorir com outra cor
 //    for(int i = 0; i < tam ; i++)
@@ -306,26 +306,36 @@ int main(int argc, char * argv[])
 	ordenaGrauDec(&lista_vertices, numero_vertices);
 	int num_cor = colore(&lista_vertices, matriz_adjacente, numero_vertices + 1);
 	gettimeofday(&stop, NULL);
-	#ifdef MOSTRAR
-	int i;
-	for(i = 0; i < numero_vertices; i++)
-		printf("%d -- %d\n", lista_vertices[1].cor, lista_vertices[i].id);
-	#endif
+//	#ifdef MOSTRAR
+//	int i;
+//	for(i = 0; i < numero_vertices; i++)
+//		printf("%d -- %d\n", lista_vertices[1].cor, lista_vertices[i].id);
+//	#endif
 	printf("Numero de cores necessario: %d\n", num_cor);
 	printf("Tempo levado para coloracao (sec): %f\n", (float)(stop.tv_usec - start.tv_usec)/1000000.0);
 
     /**TESTA A BUSCA LOCAL PARA TODAS AS CORES**/
 	while(num_cor != 0){
         busca_Local(lista_vertices,numero_vertices, num_cor);
-
+        printf("\nTestando reduzir o valor de %d", num_cor);
         int novo_num_cor = colore(&lista_vertices,matriz_adjacente,numero_vertices);
-        if(novo_num_cor != num_cor)
+        if(novo_num_cor != num_cor){
+            printf("\n\nReducao Possivel :)");
+            printf("\n\nNumero antigo de cores necessario : %d\n", num_cor);
             printf("\n\nNovo numero de cores necessario : %d\n", novo_num_cor);
-        else
-            printf("\n\nNao houve mudanca!\n");
+            #ifdef MOSTRAR
+                int i;
+                for(i = 0; i < numero_vertices; i++)
+                    if(lista_vertices[i].id!=0)
+                        printf("%d -- %d\n", lista_vertices[i].cor, lista_vertices[i].id);
+            #endif
+            return 0;
+        }else
+            printf("\nNao houve mudanca!\n");
 
             num_cor--;
 	}
+
 	return 0;
 }
 /*formato de saida é um array de vertices coloridos onde cada vertice é o struct vertice definido com cor, grau e id*/
