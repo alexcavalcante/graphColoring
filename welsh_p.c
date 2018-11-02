@@ -208,7 +208,7 @@ void busca_Local(vertices * lista_vertices, int tam, int num_cor){
             if(lista_vertices[i].cor == (cor)){
                 contador++;
             }
-        printf("\nNumero de vertice com a cor %d eh: %d\n", cor, contador);//checagem numero de vertice por cor
+        //printf("\nNumero de vertice com a cor %d eh: %d\n", cor, contador);//checagem numero de vertice por cor
         if(cor_minVertice >= contador && contador !=0){
             cor_minVertice = contador;
             cor_menor = cor;
@@ -232,10 +232,10 @@ void busca_Local(vertices * lista_vertices, int tam, int num_cor){
     /***Criação referente a 1 bucket***/
     contador = 0;
 //    for(int cor = 0; cor < num_cor )
-        buckt[0].colors = 8; //buckt da cor 8
+        buckt[0].colors = cor_menor; //buckt da cor 8
         for(int i = 0; i < tam ; i++){//for sobre todos os vertices.
-            if(lista_vertices[i].cor == 8){//verifica se o vertice possui a cor 8 por exemplo
-               printf("\nVertice: %d", lista_vertices[i].id);
+            if(lista_vertices[i].cor == cor_menor){//verifica se o vertice possui a cor 8 por exemplo
+                //printf("\nVertice: %d", lista_vertices[i].id);
                 buckt[0].aresta_block[contador] = lista_vertices[i].id;//adiciona o vertice referente a cor no buckt 0
                 contador++;
             }
@@ -244,7 +244,19 @@ void busca_Local(vertices * lista_vertices, int tam, int num_cor){
 
     /****EXIBE O BUCKET E OS VERTICES DO BUCKET****/
     for(int j = 0; j < contador; j++ )
-        printf("\n\n%d -- %d\n", buckt[0].colors, buckt[0].aresta_block[j]);
+        //printf("\n\n%d -- %d\n", buckt[0].colors, buckt[0].aresta_block[j]);
+
+            //altera cor do vertice para tentar colorir com outra cor
+    for(int i = 0; i < tam ; i++)
+        if(lista_vertices[i].cor == (cor_menor))
+            lista_vertices[i].cor = -1;
+
+                //verifica os vertices com a cor trocada
+    for(int i = 0; i < tam ; i++)
+        if(lista_vertices[i].cor == -1 && lista_vertices[i].id!=0)
+          //  printf("\nNumero do vertice eh: %d", lista_vertices[i].id);
+
+    free(buckt);
 }
 
 /*
@@ -302,7 +314,18 @@ int main(int argc, char * argv[])
 	printf("Numero de cores necessario: %d\n", num_cor);
 	printf("Tempo levado para coloracao (sec): %f\n", (float)(stop.tv_usec - start.tv_usec)/1000000.0);
 
-	busca_Local(lista_vertices,numero_vertices, num_cor);
+    /**TESTA A BUSCA LOCAL PARA TODAS AS CORES**/
+	while(num_cor != 0){
+        busca_Local(lista_vertices,numero_vertices, num_cor);
+
+        int novo_num_cor = colore(&lista_vertices,matriz_adjacente,numero_vertices);
+        if(novo_num_cor != num_cor)
+            printf("\n\nNovo numero de cores necessario : %d\n", novo_num_cor);
+        else
+            printf("\n\nNao houve mudanca!\n");
+
+            num_cor--;
+	}
 	return 0;
 }
 /*formato de saida é um array de vertices coloridos onde cada vertice é o struct vertice definido com cor, grau e id*/
